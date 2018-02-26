@@ -8,7 +8,9 @@ public class Alien extends Sprite2D{
 	public Alien(Image i, Image i2, int windowWidth) {
 		super(i,i2, windowWidth);
 	}
-	
+	public double getSpeed() {
+		return this.xSpeed;
+	}
 	public boolean move() {
 		this.x+= this.xSpeed;
 		if (x<=0 || x>=800-this.myImage1.getWidth(null)) {
