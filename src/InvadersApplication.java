@@ -23,6 +23,8 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 	private double h1, h2, h3, w1, w2, w3;
 	private boolean isGameInProgress=false;
 	private int score=0;
+	private int highScore = 0;
+	private int allWave=1;
 	
 	//constructor
 	public InvadersApplication() {
@@ -128,6 +130,7 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 								if (((x1<x2 && x1+w1>x2) || (x2<x1 && x2+w2 >x1)) 
 										&& ((y1 <y2 && y1+ h1 > y2) || (y2<y1 && y2+h2>y1))) {
 									score++;
+									if (score > highScore) highScore = score;
 									AlienArray[i].isAlive = false;
 									//iterator.remove();
 								}
@@ -135,7 +138,8 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 						}
 						
 						if (allAlienKilled()) {
-							startNewWave(Math.random()*10+4);
+							allWave+=4;
+							startNewWave();
 						}
 					}
 				}
@@ -146,18 +150,19 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 	
 	public void startNewGame() {
 		score = 0;
+		allWave = 1;
 		isGameInProgress = true;
-		startNewWave(4);
+		startNewWave();
 		PlayerShip = new Spaceship(playerShip.getImage(),600);
 		PlayerShip.setPosition(300, 530);
 	}
-	public void startNewWave(double speed) {
+	public void startNewWave() {
 		for(int i = 0; i< NUMALIENS; i++) {
 			double xx = (i/5)*80 +70;
 			double yy = (i%5)*40 +50;
 			AlienArray[i] = new Alien (alien1.getImage(), alien2.getImage(), 300);
 			AlienArray[i].setPosition(xx, yy);
-			AlienArray[i].setFleetXSpeed(speed);
+			AlienArray[i].setFleetXSpeed(allWave);
 		}	
 	}
 	public boolean allAlienKilled() {
@@ -207,6 +212,7 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 22));
 			g.drawString("Score: "+score , 320, 200);
+			g.drawString("Best score: "+highScore , 430, 200);
 			
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -216,6 +222,8 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("SansSerif", Font.BOLD, 16));
 			g.drawString(result, 300, 50);
+			
+			g.drawString("Best score: "+highScore , 430, 50);
 			
 			Iterator iterator = PlayerShip.bulletsList.iterator();
 			while (iterator.hasNext()) {
