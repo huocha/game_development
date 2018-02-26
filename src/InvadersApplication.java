@@ -46,8 +46,6 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 		
 		w3 = playerShip.getImage().getWidth(null);
 		h3 = playerShip.getImage().getHeight(null);
-
-		//bulletsList = new ArrayList();
 		
 		//create and initialize some aliens
 		startNewGame();
@@ -135,9 +133,9 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 								}
 							}	
 						}
-						double speed = AlienArray[0].getSpeed();
+						
 						if (allAlienKilled()) {
-							startNewWave(speed+4);
+							startNewWave(Math.random()*10+4);
 						}
 					}
 				}
